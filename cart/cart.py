@@ -3,7 +3,7 @@ from django.conf import settings
 from shop.models import Product
 
 class Cart(object):
-    def __init__(self, request)
+    def __init__(self, request):
         self.session = request.session
         cart = self.session.get(settings.CART_SESSION_ID)
         if not cart:
@@ -13,7 +13,7 @@ class Cart(object):
 
     def add(self, product, quantity=1, update_quantity=False):
         """ Adding a product to the cart or refresh the quantity"""
-        product_id = str(product_id)
+        product_id = str(product.id)
         if product_id not in self.cart:
             self.cart[product_id] = {'quantity': 0, 'price': str(product.price)}
         if update_quantity:
@@ -33,7 +33,7 @@ class Cart(object):
             self.save()
 
     def __iter__(self):
-        products_ids = self.cart.keys()
+        product_ids = self.cart.keys()
         products = Product.objects.filter(id__in=product_ids)
 
         cart = self.cart.copy()
